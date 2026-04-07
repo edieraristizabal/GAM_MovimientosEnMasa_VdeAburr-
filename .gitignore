@@ -1,0 +1,49 @@
+# ============================================================
+# Datos espaciales y objetos R (demasiado grandes para GitHub)
+# ============================================================
+DATA/*.tif
+DATA/*.gpkg
+DATA/*.rds
+DATA/*.csv
+DATA/*.geojson
+
+# ============================================================
+# Figuras generadas por los scripts (se regeneran ejecutando R)
+# ============================================================
+FIGURAS/
+
+# ============================================================
+# Archivos intermedios de compilacion LaTeX
+# (generados automaticamente, no necesarios en el repositorio)
+# ============================================================
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.lof
+*.lot
+
+# ============================================================
+# PDF compilado (se regenera desde .tex)
+# ============================================================
+*.pdf
+
+# ============================================================
+# Archivos de RStudio / R
+# ============================================================
+.Rhistory
+.RData
+.Rproj.user/
+*.Rproj
+
+# ============================================================
+# Sistema operativo
+# ============================================================
+.DS_Store
+Thumbs.db
+desktop.ini
