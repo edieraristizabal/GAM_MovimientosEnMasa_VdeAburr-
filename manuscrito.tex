@@ -19,7 +19,6 @@
 de movimientos en masa en el Valle de Aburrá mediante\\
 Modelos Aditivos Generalizados (GAM)}}
 \author{Edier Aristizábal}
-\date{\today}
 
 \begin{document}
 
@@ -56,85 +55,110 @@ geomorfometría, TWI.
 \section{Introducción}
 %===================================================================
 
-Los movimientos en masa constituyen uno de los peligros geológicos con
-mayor impacto humano y económico a escala global. \citet{petley2012global}
-documentó que entre 2004 y 2010 estos fenómenos causaron un promedio
-de 2\,620 muertes anuales distribuidas en más de 4\,000 eventos, con
-concentración marcada en regiones tropicales de montaña de Asia y
-América Latina. Colombia es uno de los países con mayor mortalidad por
-deslizamientos en el hemisferio occidental, con más de 600 víctimas
-anuales en promedio durante las dos últimas décadas, concentradas
-principalmente en los flancos de las cordilleras andinas
-\citep{aristizabal2015landslide}. En el Valle de Aburrá, área
-metropolitana de Medellín con más de 3{,}7 millones de habitantes,
-los movimientos en masa representan la amenaza natural de mayor
-recurrencia: el inventario regional acumula más de 5\,000 eventos entre
-2001 y 2024, incluyendo episodios catastróficos que han afectado
-barrios densamente poblados en múltiples municipios.
+Los movimientos en masa constituyen una de las amenazas naturales de
+mayor impacto humano y económico a escala global, especialmente en
+regiones tropicales de montaña donde confluyen precipitaciones intensas
+y vertientes pronunciadas \citep{aristizabal2026landslide,
+gomez2023spatial, petley2012global}. El análisis de las bases de datos
+globales revela que entre 1903 y 2020 se han
+documentado más de 37\,946 deslizamientos que produjeron 185\,753
+víctimas fatales en 161 países, con los continentes americano y asiático
+concentrando las mayores cifras \citep{gomez2023spatial}.
+Aproximadamente el 60\,\% de los deslizamientos reportados a nivel
+mundial son desencadenados por lluvias, lo que subraya el papel
+dominante de la precipitación como mecanismo detonante y la necesidad
+de integrar variables hidrometeorológicas y morfométricas en los modelos
+de evaluación de la amenaza \citep{gomez2023spatial,
+aristizabal2026landslide}.
 
-La evaluación de la \textbf{susceptibilidad} —propensión intrínseca
-del terreno a generar movimientos en masa en función de sus
-características físicas, con independencia del detonante— es el
-primer paso en la cadena de análisis de riesgo
-\citep{hungr2014varnes}. Los enfoques para evaluarla se clasifican en:
-(1) \textit{heurísticos}, basados en juicio experto y ponderación de
-mapas temáticos; (2) \textit{físicos}, que resuelven ecuaciones de
-estabilidad pero requieren parámetros geomecánicos de alta resolución
-difíciles de obtener regionalmente; y (3) \textit{estadísticos}, que
-infieren la susceptibilidad a partir de la relación histórica entre la
-distribución de eventos y covariables espaciales
-\citep{brenning2008statistical}.
+Colombia se encuentra entre los países más afectados del hemisferio
+occidental. El inventario nacional registra 30\,730 deslizamientos
+ocurridos entre 1900 y 2018, con más de 34\,000 víctimas fatales
+asociadas; el 92\,\% de estos eventos fueron desencadenados por lluvia
+y el 80\,\% ocurrieron en los flancos de las cordilleras de lso Andes
+\citep{aristizabal2020landslide}. Este patrón espacial refleja la
+combinación de laderas de fuerte pendiente, perfiles de meteorización profundos, y una hidroclimatología dominada por el desplazamiento de la
+Zona de Convergencia Intertropical (ZCIT), que impone un régimen de
+lluvias bimodal con máximas en abril--junio y septiembre--noviembre
+\citep{aristizabal2026landslide}. La variabilidad interanual asociada
+al ENSO (\textit{El Niño-Southern Oscillation}) amplifica este patrón:
+las fases La~Niña intensifican las lluvias durante las temporadas
+húmedas, elevando la humedad antecedente del suelo y predisponiendo las
+laderas a la falla \citep{aristizabal2026landslide}. 
 
-Dentro de los métodos estadísticos, la \textbf{regresión logística}
-(RL) ha sido el estándar de facto por su interpretabilidad y solidez
-teórica. Sin embargo, la RL impone relaciones lineales entre el
-predictor lineal y las covariables en escala logit —una restricción
-que puede no capturar efectos umbral, no lineales o cúspides que son
-geomorfológicamente plausibles; por ejemplo, la susceptibilidad puede
-aumentar con la pendiente hasta un rango óptimo y luego disminuir
-donde el material ya ha sido removido. En el otro extremo, los métodos
-de \textit{machine learning} (bosques aleatorios, redes neuronales,
+Los primeros
+registros sistemáticos de desastres por movimientos en masa en el Valle
+de Aburrá datan de 1880 \citep{aristizabal2007inventario}, y la base
+de datos regional acumula más de 6\,750 eventos entre 1880 y 2007,
+de los cuales los movimientos en masa representan el 35\,\% del total
+de emergencias registradas. En el Valle de Aburrá, con
+aproximadamente 4{,}1 millones de habitantes, los movimientos en masa
+son responsables del 75\,\% de las víctimas por desastres y
+constituyen la amenaza geológica de mayor recurrencia
+\citep{aristizabal2020landslide, nieto2025coupled}. El crecimiento
+urbano extraordinariamente rápido del valle —la población se incrementó
+30~veces entre 1905 y 2005, pasando de 103\,300 a más de 3{,}3
+millones de habitantes \citep{nieto2025coupled}— ha llevado a la
+ocupación progresiva de laderas cada vez más pronunciadas, en particular
+mediante asentamientos informales con infraestructura deficiente de
+drenaje y contención \citep{nieto2025coupled, aristizabal2026landslide}.
+La evidencia empírica indica que los deslizamientos causan entre
+2 y 3{,}5~veces más víctimas por km² en barrios informales que en los
+sectores formales de mayor estrato \citep{nieto2025coupled}, y que el
+reciente incremento en el número e impacto de los eventos está asociado
+principalmente a la expansión urbana hacia terrenos intrínsecamente más
+inestables, más que a cambios en el régimen de lluvias
+\citep{nieto2025coupled, aristizabal2026landslide}.
+
+La evaluación de la susceptibilidad, definida como la condición intrínseca del
+terreno a generar movimientos en masa, es el primer paso en la
+cadena de análisis de riesgo \citep{hungr2014varnes}. Las metodologías para evaluar la susceptibilidad por movimientos en masa se clasifican en: (1)~\textit{heurísticos}, basados en juicio
+experto y ponderación de mapas temáticos; (2)~\textit{físicos}, que
+resuelven ecuaciones de estabilidad pero requieren parámetros
+geomecánicos de alta resolución difíciles de obtener regionalmente; y
+(3)~\textit{estadísticos}, que infieren la susceptibilidad a partir de
+la relación histórica entre la distribución espacial de los eventos y
+las covariables del terreno \citep{brenning2008statistical}.
+
+Dentro de los métodos estadísticos, la regresión logística
+(RL) ha sido el estándar por su interpretabilidad y solidez teórica.
+Sin embargo, la RL impone relaciones lineales entre el predictor lineal
+y las covariables en escala logit. Por ejemplo, la
+susceptibilidad aumenta con la pendiente hasta un rango óptimo y luego
+disminuye donde el material susceptible ya ha sido removido por
+episodios previos de inestabilidad. En el otro extremo, los métodos de apreddizaje automático (\textit{machine learning} - bosques aleatorios, redes neuronales,
 máquinas de gradiente) superan esta restricción, pero producen modelos
-\textit{caja negra} cuyas predicciones son difícilmente validables
-desde el punto de vista geomorfológico y cuyo uso en planificación
-del riesgo es limitado \citep{huang2020landslide}.
+de caja negra cuyas predicciones son difícilmente validables desde el
+punto de vista geomorfológico y cuya utilidad para identificar los
+factores condicionantes físicos es limitada
+\citep{merghadi2020machine}.
 
-Los \textbf{Modelos Aditivos Generalizados (GAM)}
+Los Modelos Aditivos Generalizados (GAM)
 \citep{hastie1990generalized, wood2017generalized} ofrecen una solución
-de compromiso: permiten relaciones no lineales arbitrarias entre
+que equilibra ambas ventajas: permiten relaciones no lineales arbitrarias entre
 covariables y respuesta mediante funciones de suavizado
 (\textit{splines}), al tiempo que conservan la interpretabilidad
-gráfica y estadística de los GLM. Cada función de suavizado puede
-graficarse individualmente, lo que permite cuantificar y comunicar el
-efecto de cada variable morfométrica sobre la probabilidad de
-ocurrencia de movimientos en masa. \citet{brenning2008statistical}
-comparó GAM con RL y otros métodos estadísticos en los Andes
-tropicales, evidenciando que los GAM ofrecen el mejor equilibrio entre
-precisión e interpretabilidad. \citet{aristizabal2015landslide}
-demostró su utilidad en contextos colombianos, destacando el papel
-del TWI.
+gráfica y estadística de los modelos lineales generalizados. Cada
+función de suavizado puede graficarse individualmente, lo que permite
+cuantificar y comunicar el efecto de cada variable morfométrica sobre
+la probabilidad de ocurrencia de movimientos en masa.
 
-El presente trabajo tiene como objetivo principal \textbf{cuantificar
+El presente trabajo tiene como objetivo principal cuantificar
 el efecto no lineal de seis variables morfométricas sobre la ocurrencia
-de movimientos en masa en el Valle de Aburrá}, utilizando GAM como
-marco estadístico. La generación del mapa de susceptibilidad es un
-producto derivado del análisis. Las aportaciones metodológicas son:
-(i) incorporación de curvaturas planiforme y de perfil; (ii) tratamiento
-correcto del aspecto como variable circular mediante \textit{spline}
-cúbico cíclico; y (iii) evaluación del desempeño en conjunto de prueba
-independiente con umbral optimizado.
+de movimientos en masa en el Valle de Aburrá, utilizando GAM con
+regresión logística como marco estadístico. Aunque la generación del mapa de
+susceptibilidad es un producto derivado del análisis, no corresponde al objetivo del presente estudio, por lo cual no se incorporaron dentro del análisis otras variables importantes en la ocurrencia d movimientos en masa como geología, coberturas del suelo, entre otros.
 
 %===================================================================
 \section{Área de Estudio}
 %===================================================================
 
-El Valle de Aburrá es un valle intramontano ubicado en el flanco
-occidental de la Cordillera Central de los Andes colombianos,
+El Valle de Aburrá es un valle intramontano ubicado sobre el tope del norte de la Cordillera Central de los Andes colombianos,
 departamento de Antioquia (Figura~\ref{fig:localizacion}). Se
 extiende entre los 6°05' y 6°35' de latitud norte y los 75°25' y
 75°45' de longitud oeste, con aproximadamente 60\,km de extensión
 norte--sur y hasta 10\,km de anchura. Alberga diez municipios del Área
-Metropolitana de Medellín con una población de aproximadamente
+Metropolitana, con una población de aproximadamente
 3{,}7 millones de habitantes.
 
 \begin{figure}[htbp]
@@ -147,99 +171,246 @@ Metropolitana de Medellín con una población de aproximadamente
 \end{figure}
 
 Desde el punto de vista topográfico, el valle es profundamente incisado
-por el río Medellín (Porce), con cotas que varían entre 1\,300\,m
+por el río Medellín, con cotas que varían entre 1\,300\,m
 en el fondo y más de 2\,800\,m en las cimas de las vertientes.
 Las pendientes predominantes oscilan entre 20° y 50°, con una
-heterogeneidad morfológica marcada por afloramientos rocosos, suelos
-residuales profundos y depósitos de ladera.
+heterogeneidad morfológica marcada por afloramientos en suelos
+residuales y depósitos de ladera.
 
-Geológicamente, el subsuelo está dominado por rocas metamórficas
-(esquistos, gneis y anfibolitas del Complejo Cajamarca) y cuerpos
-ígneos intrusivos (granodioritas, cuarzodioritas), cubiertos por
-perfiles de meteorización de hasta 30--50\,m de espesor. Esta
-combinación de materiales con propiedades geomecánicas contrastantes,
-pendientes pronunciadas y precipitaciones intensas genera condiciones
-excepcionales para la inestabilidad de laderas.
+Geológicamente, el valle está enmarcado en el cinturón orogénico
+formado por la convergencia oblicua de las placas de Nazca y del
+Caribe con la placa Suramericana \citep{trenkamp2002wide}, lo que ha
+generado intensa deformación cortical, levantamiento y fallamiento
+\citep{cediel2003phanerozoic}. El subsuelo está dominado por rocas
+metamórficas (esquistos, gneis y anfibolitas del Complejo Cajamarca)
+y cuerpos ígneos intrusivos (granodioritas, cuarzodioritas), cubiertos
+por espesos perfiles de meteorización de hasta 30--50\,m. La
+predominancia de suelos residuales y depósitos coluviales con
+propiedades geomecánicas espacialmente variables —en términos de
+textura, cohesión y conductividad hidráulica— modula localmente la
+infiltración, el desarrollo de presiones de poros y la estabilidad de
+laderas bajo lluvia intensa \citep{aristizabal2026landslide,
+nieto2025coupled}.
 
-El clima es subtropical de montaña con dos temporadas húmedas
-(marzo--mayo y septiembre--noviembre), precipitación media anual de
-1\,500 a 3\,000\,mm y temperatura entre 12 y 24\,°C. Los eventos de
-mayor intensidad pluviométrica ($>100$\,mm en 24\,h) son los
-detonantes principales de los movimientos en masa registrados.
+El clima es subtropical de montaña, controlado por la migración
+meridional de la Zona de Convergencia Intertropical (ZCIT) y la
+interacción de tres chorros de bajo nivel: el Chocó, el del Caribe y
+el de los Andes orientales \citep{aristizabal2026landslide}. El
+régimen pluviométrico es bimodal, con temporadas húmedas en
+marzo--mayo y septiembre--noviembre, precipitación media anual entre
+1\,500 y 3\,000\,mm, y temperatura entre 12 y 24\,°C según la
+altitud. La variabilidad interanual está modulada principalmente por
+el ENSO: las fases La~Niña intensifican las lluvias de ambas
+temporadas húmedas, elevando la humedad antecedente del suelo y
+predisponiendo las laderas a la falla
+\citep{aristizabal2026landslide}.
 
 %===================================================================
 \section{Datos y Metodología}
 %===================================================================
 
-%-------------------------------------------------------------------
-\subsection{Inventario de Movimientos en Masa}
-%-------------------------------------------------------------------
+\subsection{Marco conceptual: los Modelos Aditivos Generalizados (GAM)}
 
-Se utilizó el inventario regional del Sistema de Alerta Temprana del
-Valle de Aburrá (SIATA), depurado para incluir únicamente eventos con
-localización geográfica verificada. El conjunto final comprende 5\,487
+La susceptibilidad por movimientos en masa depende de variables morfométricas
+que raramente exhiben relaciones lineales con la probabilidad de falla.
+Un modelo de regresión logística clásica asumiría, por ejemplo, que a mayor
+pendiente la probabilidad de deslizamiento aumenta en proporción constante;
+sin embargo, la evidencia empírica muestra que pendientes muy bajas
+($<\!5^{\circ}$) y muy altas ($>\!55^{\circ}$) presentan baja frecuencia de eventos,
+con un rango de mayor ocurrencia situado entre 20° y 45°.
+Relaciones en forma de cúpula, con umbrales o con inversiones de efecto
+en distintos rangos del predictor no pueden ser representadas por funciones
+lineales. Otro ejemplo relevante es el TWI: su efecto sobre la probabilidad
+de falla no es monótonamente creciente sino que se satura o invierte a
+valores muy altos cuando el suelo permanece permanentemente saturado y los
+materiales finos han sido lavados. Modelar incorrectamente estas no
+linealidades sesga las predicciones espaciales de susceptibilidad y
+puede llevar a errar en la identificación de zonas críticas.
+
+Los Modelos Aditivos Generalizados
+\citep{hastie1990generalized, wood2017generalized} extienden los
+Modelos Lineales Generalizados (GLM) reemplazando los efectos lineales por
+\textit{funciones de suavizado} no paramétricas. Cada predictor contribuye
+al modelo mediante una curva flexible, estimada directamente de los datos,
+sin imponer ninguna forma funcional predefinida. El modelo \textit{suma}
+estas contribuciones individuales ---de allí el calificativo
+``aditivo''--- lo que preserva su interpretabilidad: el efecto parcial de
+cada variable puede visualizarse y analizarse de forma independiente,
+controlando simultáneamente por todas las demás.
+
+Dado que la variable respuesta es binaria (presencia/ausencia de
+movimiento en masa) se asume $Y_i \sim \mathrm{Bernoulli}(P_i)$ y se
+adopta la función de enlace logit para modelar la probabilidad de
+ocurrencia $P_i$ en cada celda del territorio:
+
+\begin{equation}
+\ln\!\left(\frac{P_i}{1-P_i}\right) = \beta_0 +
+s_1(\mathrm{elev}_i) + s_2(\mathrm{slope}_i) +
+s_3(\mathrm{aspect}_i) + s_4(\kappa_{p,i}) +
+s_5(\kappa_{r,i}) + s_6(\mathrm{TWI}_i),
+\label{eq:gam}
+\end{equation}
+
+donde $\beta_0$ es el intercepto global y $s_j(\cdot)$ son funciones
+de suavizado que capturan la relación no lineal entre cada predictor y
+el logit de la probabilidad (el logaritmo de la razón entre la
+probabilidad de ocurrencia y la de no-ocurrencia). La probabilidad se
+recupera aplicando la función logística inversa:
+$P_i = [1 + \exp(-\eta_i)]^{-1}$, donde $\eta_i$ es el predictor
+lineal (parte derecha de la ecuación~\eqref{eq:gam}).
+
+\subsubsection*{Construcción de las funciones de suavizado}
+
+Cada función $s_j$ se representa matemáticamente como combinación
+lineal de $K$ funciones de base $\{\phi_k\}_{k=1}^{K}$:
+$s_j(x) = \sum_{k=1}^{K} \gamma_{jk}\,\phi_k(x)$.
+Las funciones de base actúan como ``ladrillos'' de distintas
+formas (curvas elementales de diferentes frecuencias); combinándolas
+con distintos pesos $\gamma_{jk}$ es posible aproximar cualquier curva
+suave. $K$ es la \textit{dimensión de la base} y controla la
+complejidad máxima de la curva.
+
+En este estudio se emplean \textit{thin plate regression splines}
+(TPRS) para las cinco variables continuas no circulares
+\citep{wood2017generalized}. Los TPRS ubican automáticamente los nodos
+en posiciones óptimas (no se requiere especificar su posición a priori)
+y, para una restricción de rugosidad dada, minimizan el error cuadrático
+de interpolación. Esto los hace teóricamente óptimos entre los
+\textit{splines} de dimensión $K$ dada.
+
+\subsubsection*{Penalización de rugosidad y parámetro de suavizado}
+
+Sin restricciones, la curva $s_j$ podría ajustarse perfectamente a los
+datos de entrenamiento mediante oscilaciones erráticas de escaso
+significado físico (sobreajuste). Para evitarlo, se penaliza la
+rugosidad de la función mediante la integral del cuadrado de su segunda
+derivada:
+
+\begin{equation}
+    J(s_j) = \int \bigl[s_j''(x)\bigr]^2\,dx.
+    \label{eq:penalty}
+\end{equation}
+
+La segunda derivada $s_j''(x)$ mide la curvatura local de la función:
+si $s_j''(x) = 0$ en todo el dominio, la función es una línea recta;
+valores altos de $|s_j''|$ indican cambios abruptos de dirección.
+La integral $J(s_j)$ acumula esa curvatura a lo largo del dominio
+completo del predictor: es nula para una recta y crece con la
+ondulación de la curva. La estimación del modelo maximiza la
+\textit{log-verosimilitud penalizada}, que balancea la bondad del
+ajuste con la suavidad de las funciones:
+
+\begin{equation}
+    \ell_P = \ell(\boldsymbol{\gamma}) -
+    \tfrac{1}{2}\sum_j \lambda_j\, J(s_j),
+    \label{eq:plik}
+\end{equation}
+
+donde $\ell(\boldsymbol{\gamma})$ es la log-verosimilitud ordinaria
+(cuán bien el modelo reproduce los datos observados) y
+$\lambda_j > 0$ es el \textit{parámetro de suavizado} del término $j$.
+Este parámetro gobierna el compromiso entre ajuste y suavidad: cuando
+$\lambda_j \to 0$ la penalización desaparece y la curva puede ser
+muy flexible (riesgo de sobreajuste); cuando $\lambda_j \to \infty$
+la penalización domina y la curva converge a una línea recta,
+recuperando el caso de la regresión logística clásica. Los GAM
+incluyen, por tanto, a los GLM como caso límite particular.
+
+\subsubsection*{Selección automática del suavizado: REML}
+
+La determinación del valor apropiado de $\lambda_j$ es crítica para el
+desempeño del modelo: valores demasiado pequeños producen sobreajuste
+y pérdida de generalización; valores demasiado grandes generan
+infraajuste y eliminan las relaciones no lineales de interés.
+En este estudio, los $\lambda_j$ se seleccionaron automáticamente
+mediante \textit{Restricted Maximum Likelihood} (REML)
+\citep{wood2017generalized}. REML reinterpreta el GAM como un modelo
+lineal mixto equivalente, en el que los parámetros de suavizado
+corresponden a varianzas de efectos aleatorios. Este enfoque permite
+estimar simultáneamente todos los $\lambda_j$ en un único procedimiento
+de optimización estadística, y proporciona inferencia rigurosa sobre
+los grados de libertad efectivos de cada curva. Frente a la validación
+cruzada generalizada (GCV), REML produce estimaciones más estables y
+es menos propenso a sobresuavizar cuando los datos presentan correlación
+espacial o ligero desequilibrio de clases
+\citep{wood2017generalized}, condiciones comunes en inventarios de
+movimientos en masa.
+
+\subsection{Datos e inventario de movimientos en masa}
+
+Para el análisis se construyó un inventario de movimientos en masa que comprende 5\,487
 puntos de ocurrencia entre 2001 y 2024 (Figura~\ref{fig:inventario}),
-con mayor concentración en las vertientes de mayor pendiente y en las
-vaguadas de convergencia de flujo subsuperficial.
+a partir de imágenes de satélite de resolución submétrica disponibles en Google Earth.
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.70\textwidth]{FIGURAS/mapa_inventario.png}
     \caption{Distribución espacial de los 5\,487 movimientos en masa
     inventariados (2001--2024) en el Valle de Aburrá. Puntos rojos
-    sobre hillshade derivado del DEM de 2\,m. Se incluyen escala
-    gráfica y flecha norte.}
+    sobre hillshade derivado del DEM de 5\,m.}
     \label{fig:inventario}
 \end{figure}
 
-%-------------------------------------------------------------------
-\subsection{Variables Morfométricas}
-%-------------------------------------------------------------------
+Se construyó un Modelo Digital de Elevación (MDE) con la mejor resolución
+espacial disponible a partir de un modelo de 1\,m de resolución para la
+ciudad de Medellín, obtenido con tecnología LiDAR, y un MDE complementario
+con resolución de 2\,m para suelos urbanos y 5\,m para suelos rurales del
+resto del valle, derivado de restitución fotogramétrica.
 
-A partir de un DEM aerofotogramétrico de 2\,m de resolución se
-derivaron seis variables morfométricas (Tabla~\ref{tab:estadisticos}
+A partir de dicho MDE se derivaron seis variables morfométricas (Tabla~\ref{tab:estadisticos}
 y Figura~\ref{fig:hist}):
 
 \begin{enumerate}
 
 \item \textbf{Elevación} ($z$, m): altura sobre el nivel del mar.
-Indica el gradiente altitudinal de propiedades como el grado de
-meteorización del material superficial, la intensidad y distribución
-de la precipitación y el tipo de cobertura vegetal. En el Valle de
+En el Valle de
 Aburrá, los sectores medios de ladera (1\,500--2\,000\,m) presentan
-los perfiles de meteorización más desarrollados y la mayor densidad
+la mayor densidad
 constructiva sobre ladera, lo que condiciona una mayor concentración
 de eventos en ese rango altitudinal (Figura~\ref{fig:hist}).
 
 \item \textbf{Pendiente} ($\beta$, grados): gradiente del terreno.
-Es el factor condicionante más directamente relacionado con la
-estabilidad de laderas, dado que la componente tangencial de la
-gravedad —que genera tensión de corte en el plano de falla— aumenta
-con $\sin\beta$. Las distribuciones de densidad muestran una
-concentración marcada de deslizamientos entre 20° y 45°, con pico
-alrededor de 30°. La reducción de la frecuencia de eventos en
-pendientes superiores a 50° es consistente con el efecto de
-agotamiento del material susceptible.
+Está directamente relacionada con la estabilidad de laderas, dado que
+la componente tangencial de la gravedad, que genera tensión de corte
+en el plano de falla, aumenta con $\sin\beta$. Las distribuciones de
+densidad muestran una concentración marcada de deslizamientos entre 20°
+y 45°, con pico alrededor de 30°. La reducción de la frecuencia de
+eventos en pendientes superiores a 50° es coherente con la erosión
+progresiva del material susceptible y la escasa área relativa de estas
+superficies en el valle.
 
 \item \textbf{Aspecto} ($\alpha$, grados): orientación de la ladera
 respecto al norte (0°--360°). Determina la exposición solar, los
-patrones de evapotranspiración y, consecuentemente, la humedad del
-suelo. Es una variable \textit{circular}: los valores 0° y 360°
-representan idénticamente la orientación norte, lo que requiere
-un tratamiento estadístico especial.
+patrones de evapotranspiración y, como aproximación, la humedad del
+suelo. El aspecto es una variable \textit{circular}: un valor de 360°
+es físicamente idéntico a 0°. Un TPRS estándar trataría esos dos
+extremos como valores opuestos del dominio, generando una
+discontinuidad artificial que distorsionaría la función estimada.
+Para evitar este artefacto se empleó un \textit{spline} cúbico
+cíclico (\texttt{bs\,=\,"cc"}), que impone la continuidad de la
+función y su primera derivada en los extremos del dominio circular:
+\begin{equation}
+    s_3(0^{\circ}) = s_3(360^{\circ}) \quad\text{y}\quad
+    s_3'(0^{\circ}) = s_3'(360^{\circ}),
+    \label{eq:cyclic}
+\end{equation}
+con nodos extremos fijados en 0° y 360° y dimensión de base $k=10$.
+Esta condición garantiza que la función estimada cierra suavemente
+al completar el círculo de orientaciones, sin saltos ni pendientes
+discontinuas en la transición norte--norte.
 
 \item \textbf{Curvatura planiforme} ($\kappa_p$): curvatura
 perpendicular a la dirección de máxima pendiente. Controla la
 convergencia o divergencia lateral del flujo subsuperficial. Valores
 negativos (cóncavo en planta) indican vaguadas y hondonadas donde
 se concentra la humedad y la presión de poros; valores positivos
-corresponden a espinazos y divisorias.
+corresponden a filos y divisorias donde el agua diverge.
 
 \item \textbf{Curvatura de perfil} ($\kappa_r$): curvatura en la
 dirección de máxima pendiente. Controla la aceleración del flujo
 ladera abajo y el espesor del material coluvial: zonas cóncavas en
-perfil tienden a acumular coluvión, aumentando el peso del material
-y la presión de poros.
+perfil tienden a acumular el flujo de agua, aumentando el peso del
+material y la presión de poros, predisponiendo a la falla.
 
 \item \textbf{Índice Topográfico de Humedad (TWI)}: propuesto por
 \citet{beven1979physically}, cuantifica la propensión topográfica
@@ -249,22 +420,20 @@ a acumular agua:
     \label{eq:twi}
 \end{equation}
 donde $A_s$ (m²/m) es el área de contribución específica aguas
-arriba. Por no disponer de acumulación de flujo D8 en el entorno
-de cómputo, se empleó la aproximación local
-$\mathrm{TWI} \approx \ln(1/\tan\beta)$ a 10\,m de resolución.
-Valores altos de TWI indican alta probabilidad de saturación del
-suelo.
+arriba. Valores altos de TWI indican tendencia a la saturación del
+suelo, condición que reduce la resistencia al corte en suelos
+cohesivos y facilita la movilización de materiales ladera abajo.
 
 \end{enumerate}
 
 La Tabla~\ref{tab:estadisticos} resume los estadísticos descriptivos
-de las seis variables para el conjunto de datos completo.
+de las seis variables para el conjunto de datos utilizado.
 
 \begin{table}[htbp]
 \centering
 \caption{Estadísticos descriptivos de las variables morfométricas
 del conjunto de datos de entrenamiento ($n = 10\,974$).
-DE: desviación estándar; Moda: valor de máxima densidad kernel.}
+DE: desviación estándar.}
 \label{tab:estadisticos}
 \small
 \begin{tabular}{lrrrrrrrr}
@@ -292,160 +461,184 @@ TWI                 & 1{,}24 & 3{,}62 & 4{,}87 & 4{,}52 & 5{,}97 & 12{,}31 & 1{,
     \label{fig:hist}
 \end{figure}
 
-%-------------------------------------------------------------------
-\subsection{Muestreo de No-Ocurrencias}
-%-------------------------------------------------------------------
+\subsection{Diseño del modelo: muestreo, ajuste y diagnósticos}
 
-Se generaron 5\,487 puntos de no-ocurrencia —igual número que los
-eventos inventariados— mediante muestreo aleatorio bajo dos criterios:
-(1) pendiente superior a 5° y (2) distancia mínima de 1\,km a
-cualquier punto del inventario, para evitar la contaminación espacial.
-El muestreo se realizó a 10\,m de resolución con semilla fija
-(\texttt{set.seed(42)}) para garantizar reproducibilidad.
+\subsubsection*{Muestreo de no-ocurrencias}
 
-%-------------------------------------------------------------------
-\subsection{Fundamento Estadístico de los GAM}
-%-------------------------------------------------------------------
+Para construir un modelo de presencia--ausencia es necesario definir
+puntos de no-ocurrencia representativos del territorio estable.
+Se generaron 5\,487 puntos de no-ocurrencia ---igual número que los
+eventos inventariados, para mantener el balance de clases--- mediante
+muestreo aleatorio con dos criterios de filtrado:
+(i)~pendiente superior a 5°, para excluir superficies planas no
+susceptibles que aportarían información poco informativa sobre los
+condicionantes de la falla, y
+(ii)~distancia mínima de 1\,km a cualquier punto del inventario, para
+minimizar la autocorrelación espacial entre ocurrencias y
+no-ocurrencias.
 
-Los Modelos Aditivos Generalizados \citep{hastie1990generalized,
-wood2017generalized} extienden los GLM reemplazando los efectos lineales
-por funciones de suavizado no paramétricas. Para una respuesta
-$Y_i \sim \mathrm{Bernoulli}(P_i)$ (ocurrencia/no-ocurrencia) y
-función de enlace logit:
+\subsubsection*{Ajuste del modelo y validación de la dimensión de la base}
 
-\begin{equation}
-\ln\!\left(\frac{P_i}{1-P_i}\right) = \beta_0 +
-s_1(\mathrm{elev}_i) + s_2(\mathrm{slope}_i) +
-s_3(\mathrm{aspect}_i) + s_4(\kappa_{p,i}) +
-s_5(\kappa_{r,i}) + s_6(\mathrm{TWI}_i),
-\label{eq:gam}
-\end{equation}
+El modelo se ajustó con la función \texttt{gam()} del paquete
+\texttt{mgcv} \citep{wood2017generalized} en el entorno estadístico R,
+especificando distribución binomial, enlace logit y REML como criterio
+de selección del suavizado. La dimensión $k$ de cada término de
+suavizado determina la complejidad máxima de la curva estimada: valores
+de $k$ insuficientes pueden impedir capturar la no-linealidad real de
+la relación. La adecuación de $k$ se verificó con la función
+\texttt{gam.check()}, que realiza una prueba estadística basada en
+residuos por vecinos más próximos: un valor $p$ pequeño ($p < 0{,}05$)
+indica que la función aún presenta estructura no capturada con la base
+actual y conviene incrementar $k$.
 
-donde $s_j(\cdot)$ son \textit{thin plate splines} (TPS) y
-$s_3(\cdot)$ es un \textit{spline} cúbico cíclico para el aspecto.
+\subsubsection*{Diagnósticos del ajuste: \texttt{gam.check()}}
 
-\subsubsection*{Thin plate splines y penalización}
+La función \texttt{gam.check()} produce cuatro gráficos de diagnóstico
+que permiten evaluar los supuestos del modelo
+(Figura~\ref{fig:gam_check}):
 
-Cada función $s_j$ se representa como combinación lineal de funciones
-de base $\{\phi_k\}$ con coeficientes estimados penalizando la
-rugosidad mediante:
-\begin{equation}
-    J(s_j) = \int \bigl[s_j''(x)\bigr]^2\,dx.
-    \label{eq:penalty}
-\end{equation}
+\begin{enumerate}
+    \item \textbf{Gráfico Q-Q de residuos de devianza}: compara los
+    cuantiles empíricos de los residuos con los cuantiles teóricos de
+    la distribución normal. Si los puntos se alinean sobre la recta de
+    referencia, los residuos siguen aproximadamente la distribución
+    esperada. Desviaciones sistemáticas en los extremos pueden
+    indicar valores atípicos o errores de especificación del modelo.
 
-La estimación maximiza la log-verosimilitud penalizada:
-\begin{equation}
-    \ell_P = \ell(\boldsymbol{\gamma}) -
-    \tfrac{1}{2}\sum_j \lambda_j\, J(s_j),
-    \label{eq:plik}
-\end{equation}
-donde $\lambda_j > 0$ es el parámetro de suavizado seleccionado por
-REML (\textit{Restricted Maximum Likelihood}). Valores grandes de
-$\lambda_j$ producen funciones más suaves (tendiendo a linealidad);
-valores pequeños permiten mayor flexibilidad.
+    \item \textbf{Histograma de residuos}: muestra la distribución
+    marginal de los residuos de devianza. Se espera una distribución
+    aproximadamente simétrica y unimodal centrada en cero. Asimetrías
+    marcadas o bimodalidad pueden revelar clases mal representadas o
+    datos atípicos.
 
-\subsubsection*{Spline cíclico para el aspecto}
+    \item \textbf{Residuos vs.\ valores ajustados}: verifica la
+    homocedasticidad de los residuos. La ausencia de patrones
+    sistemáticos (tendencias en forma de embudo, curvatura o
+    estructura periódica) confirma que el modelo captura adecuadamente
+    la varianza de los datos. Para respuestas binarias es normal
+    observar dos franjas de puntos, una por cada clase.
 
-El aspecto es circular (0° $\equiv$ 360°). Un TPS estándar introduce
-una discontinuidad artificial en ese punto. El \textit{spline} cúbico
-cíclico (\texttt{bs\,=\,"cc"}) impone:
-\begin{equation}
-    s_3(0°) = s_3(360°) \quad\text{y}\quad
-    s_3'(0°) = s_3'(360°),
-    \label{eq:cyclic}
-\end{equation}
-con nodos extremos fijados en 0° y 360° y dimensión de base $k=10$.
+    \item \textbf{Respuesta observada vs.\ ajustada}: contrasta los
+    valores medios observados en intervalos del predictor lineal con
+    los valores predichos. Una nube de puntos cercana a la diagonal
+    confirma que el modelo discrimina correctamente ambas clases en
+    todo el rango del predictor.
+\end{enumerate}
 
-\subsubsection*{Diagnósticos}
+\subsubsection*{Análisis de concurvidad}
 
-La adecuación de la dimensión $k$ de cada \textit{spline} se verificó
-con \texttt{gam.check()}, que contrasta si $k$ es suficiente para
-capturar la no-linealidad observada. La concurvidad (análoga a la
-multicolinealidad) se evaluó con \texttt{concurvity()}.
+La concurvidad es el análogo no paramétrico de la multicolinealidad:
+cuantifica hasta qué punto una función de suavizado $s_j$ puede ser
+aproximada por una combinación de las demás funciones del modelo
+\citep{wood2017generalized}. Un índice de concurvidad cercano a 1 para
+un par de predictores indica que ambos contienen información casi
+redundante, lo que compromete la identificabilidad y la precisión de
+las curvas estimadas. Los índices de concurvidad se calcularon con la
+función \texttt{concurvity()} y se verificó que ningún par de
+predictores superara el umbral de $0{,}8$ que se considera indicativo
+de concurvidad problemática.
 
-%-------------------------------------------------------------------
-\subsection{Evaluación del Modelo}
-%-------------------------------------------------------------------
+\subsection{Partición y evaluación del desempeño}
 
-El conjunto de datos se dividió estratificadamente en 70\,\%
-entrenamiento y 30\,\% prueba. Se calcularon las siguientes métricas
-sobre el conjunto de prueba exclusivamente:
+El conjunto de datos completo ($n = 10\,974$: 5\,487 ocurrencias y
+5\,487 no-ocurrencias) se dividió estratificadamente en 70\,\%
+entrenamiento ($n = 7\,682$) y 30\,\% prueba ($n = 3\,292$),
+manteniendo la proporción de clases en ambas particiones. El modelo
+se ajustó exclusivamente con el subconjunto de entrenamiento y fue
+evaluado en el de prueba, el cual no participó en ninguna etapa del
+ajuste, garantizando una estimación imparcial del desempeño predictivo.
+
+El umbral óptimo de clasificación (probabilidad predicha por encima de
+la cual se asigna la clase ``ocurrencia'') se determinó maximizando el
+índice de Youden (TSS) en la curva ROC. Se calcularon las siguientes
+métricas sobre el conjunto de prueba:
 
 \begin{itemize}
     \item \textbf{AUC} (\textit{Area Under the ROC Curve}): área bajo
-    la curva de característica operativa del receptor. Mide la
+    la curva ROC (Característica Operativa del Receptor). Mide la
     capacidad discriminante del modelo independientemente del umbral
-    de clasificación. Interpretación: $<0{,}7$ = pobre; $0{,}7$--$0{,}8$
-    = aceptable; $0{,}8$--$0{,}9$ = bueno; $>0{,}9$ = excelente
-    \citep{hosmer2013applied}.
+    de clasificación: AUC~$= 0{,}5$ equivale a una predicción aleatoria
+    y AUC~$= 1{,}0$ a una discriminación perfecta. Convencionalmente:
+    $<0{,}7$ = pobre; $0{,}7$--$0{,}8$ = aceptable;
+    $0{,}8$--$0{,}9$ = bueno; $>0{,}9$ = excelente
+    \citep{hosmer2013applied}. Es la métrica más empleada en modelos
+    de susceptibilidad por ser insensible a la elección del umbral de
+    clasificación.
 
-    \item \textbf{TSS} (\textit{True Skill Statistic}): $\mathrm{TSS}
-    = \mathrm{Sensibilidad} + \mathrm{Especificidad} - 1$.
-    Equivalente al índice de Youden; rango $[-1,\,1]$ con 0
-    indicando predicción aleatoria. Interpretación: $<0{,}4$ = pobre;
+    \item \textbf{TSS} (\textit{True Skill Statistic}, índice de Youden):
+    $\mathrm{TSS} = \mathrm{Sensibilidad} + \mathrm{Especificidad} - 1$.
+    Equilibra la capacidad del modelo para identificar correctamente
+    tanto deslizamientos (sensibilidad) como zonas estables
+    (especificidad). Su rango es $[-1,\,1]$: 0 indica rendimiento
+    equivalente al azar; valores $> 0{,}6$ se consideran satisfactorios
+    para modelos de susceptibilidad. Valores $<0{,}4$ = pobre;
     $0{,}4$--$0{,}6$ = moderado; $0{,}6$--$0{,}8$ = bueno;
     $>0{,}8$ = excelente.
 
-    \item \textbf{Sensibilidad} (Recall, tasa de verdaderos positivos):
-    proporción de deslizamientos correctamente clasificados.
-    Relevante para no omitir zonas de riesgo real.
+    \item \textbf{Sensibilidad} (recall, tasa de verdaderos positivos):
+    fracción de los deslizamientos reales que el modelo clasifica
+    correctamente. Una alta sensibilidad reduce el riesgo de no
+    identificar zonas peligrosas (falsos negativos), lo que es
+    prioritario en aplicaciones de gestión del riesgo.
 
     \item \textbf{Especificidad} (tasa de verdaderos negativos):
-    proporción de no-ocurrencias correctamente clasificadas.
-    Relevante para no sobreestimar el área susceptible.
+    fracción de las zonas estables que el modelo clasifica
+    correctamente. Una alta especificidad evita generar alarmas
+    innecesarias sobre terreno seguro (falsos positivos), importante
+    para la viabilidad del ordenamiento territorial.
 
-    \item \textbf{F1-Score}: media armónica de precisión y
-    sensibilidad; $F_1 = 2\,TP/(2\,TP+FP+FN)$. Balanceo entre ambas
-    métricas, útil con clases balanceadas.
+    \item \textbf{F1-Score}: media armónica de precisión
+    (fracción de predicciones positivas que son realmente ocurrencias)
+    y sensibilidad:
+    $F_1 = 2\,\mathrm{TP}/(2\,\mathrm{TP}+\mathrm{FP}+\mathrm{FN})$.
+    Útil cuando se busca equilibrar la detección de eventos reales
+    con la minimización de falsas alarmas, especialmente en conjuntos
+    de datos balanceados.
 
-    \item \textbf{Kappa de Cohen} ($\kappa$): acuerdo entre
-    predicciones y observaciones corregido por azar.
-    Interpretación: $<0{,}2$ = insignificante; $0{,}2$--$0{,}4$ = leve;
-    $0{,}4$--$0{,}6$ = moderado; $0{,}6$--$0{,}8$ = sustancial;
-    $>0{,}8$ = casi perfecto \citep{cohen1960}.
+    \item \textbf{Kappa de Cohen} ($\kappa$): mide la concordancia
+    entre clases predichas y observadas corrigiendo por el nivel de
+    acuerdo esperado al azar:
+    $\kappa = (\mathrm{Po} - \mathrm{Pe})/(1 - \mathrm{Pe})$,
+    donde $\mathrm{Po}$ es la precisión observada y $\mathrm{Pe}$
+    la esperada por azar. Valores $<0{,}2$ = insignificante;
+    $0{,}2$--$0{,}4$ = leve; $0{,}4$--$0{,}6$ = moderado;
+    $0{,}6$--$0{,}8$ = sustancial; $>0{,}8$ = casi perfecto
+    \citep{cohen1960}.
 \end{itemize}
 
-El umbral óptimo de clasificación se determinó maximizando el TSS
-(punto de máximo índice de Youden en la curva ROC). La importancia
-relativa de cada predictor se cuantificó como la reducción de
-devianza al omitir esa variable del modelo completo:
+La importancia relativa de cada predictor se cuantificó como la
+reducción de devianza al omitir esa variable del modelo completo:
 $\Delta D_j = D_{\mathrm{sin}\,j} - D_{\mathrm{completo}}$.
+Un valor alto de $\Delta D_j$ indica que el predictor $j$ aporta
+información irreemplazable para explicar la distribución espacial
+de los movimientos en masa en el Valle de Aburrá.
 
 %===================================================================
 \section{Resultados}
 %===================================================================
 
-%-------------------------------------------------------------------
-\subsection{Distribución de Variables por Clase y Pruebas KS}
-%-------------------------------------------------------------------
-
-La Figura~\ref{fig:hist} muestra las distribuciones de densidad de
+La Figura~\ref{fig:hist} presenta las distribuciones de densidad de
 las seis variables para los grupos de deslizamiento y no-ocurrencia.
 Las pruebas de Kolmogorov-Smirnov confirmaron diferencias
 estadísticamente significativas ($p < 0{,}001$) en todas las variables.
 
-La \textbf{elevación} presenta distribuciones claramente distintas:
+La elevación presenta distribuciones claramente distintas:
 los deslizamientos se concentran entre 1\,500 y 2\,000\,m, mientras
-las no-ocurrencias son más uniformes. La \textbf{pendiente} muestra
+las no-ocurrencias son más uniformes. La pendiente muestra
 la diferencia más marcada (mayor estadístico $D$ de KS): los
 deslizamientos se acumulan en 20°--45° con pico en torno a 30°,
 mientras las no-ocurrencias tienen mayor representación en pendientes
-suaves. El \textbf{aspecto} evidencia una distribución prácticamente
+suaves. El aspecto evidencia una distribución prácticamente
 uniforme para las no-ocurrencias, pero con leve predominio de
 deslizamientos en orientaciones oeste-noroeste (225°--315°). Las
-\textbf{curvaturas} muestran que los deslizamientos tienden hacia
+curvaturas muestran que los deslizamientos tienden hacia
 valores negativos (zonas cóncavas en planta y en perfil), coherente
-con la acumulación de agua y material. El \textbf{TWI} exhibe la
+con la acumulación de agua y material. El TWI muestra la
 separación más clara en términos de densidad: los deslizamientos
 registran valores consistentemente mayores, confirmando la importancia
-de la humedad topográfica.
+de la humedad en la ocurrencia de movimientos en masa en el Valle de Aburrá.
 
-%-------------------------------------------------------------------
-\subsection{Ajuste y Diagnósticos del Modelo GAM}
-%-------------------------------------------------------------------
-
-El modelo GAM convergió correctamente y los seis términos de suavizado
+El ajuste del modelo GAM convergió correctamente y los seis términos de suavizado
 resultaron altamente significativos ($p < 0{,}001$). La
 Figura~\ref{fig:gam_check} presenta los cuatro gráficos de diagnóstico
 de \texttt{gam.check()}: el Q-Q de residuos de devianza muestra un
@@ -470,10 +663,6 @@ estimabilidad.
     \label{fig:gam_check}
 \end{figure}
 
-%-------------------------------------------------------------------
-\subsection{Efecto de las Variables Morfométricas}
-%-------------------------------------------------------------------
-
 La Figura~\ref{fig:smooths} presenta las seis funciones de suavizado
 estimadas, que describen el efecto marginal de cada variable sobre el
 predictor lineal $\eta$ (escala logit) manteniendo las demás variables
@@ -483,10 +672,11 @@ en sus valores medios.
     \centering
     \includegraphics[width=1.00\textwidth]{FIGURAS/gam_smooths.png}
     \caption{Funciones de suavizado del GAM para las seis variables
-    morfométricas. Eje $y$: contribución al predictor lineal (logit)
-    centrada en cero. Bandas grises: intervalos de confianza al 95\,\%.
-    Puntos grises: residuos de devianza parciales. Panel central
-    superior: \textit{spline} cíclico del aspecto.}
+    morfométricas (tres filas, dos columnas). Eje $y$: contribución al
+    predictor lineal (logit) centrada en cero. Bandas sombreadas:
+    intervalos de confianza al 95\,\%. Puntos grises: residuos de
+    devianza parciales. Panel superior derecho: \textit{spline} cúbico
+    cíclico del aspecto (\texttt{bs\,=\,"cc"}).}
     \label{fig:smooths}
 \end{figure}
 
@@ -496,21 +686,19 @@ en sus valores medios.
 y posterior descenso. El incremento del logit entre 1\,400 y 1\,900\,m
 refleja la concentración de perfiles de meteorización profundos y
 urbanización de ladera en esa franja altitudinal; la caída a
-elevaciones superiores corresponde a zonas con menor densidad
-constructiva y mayor compacidad del material.
+elevaciones superiores sugiere zonas con menor densidad
+constructiva y/o menor susceptibilidad de los materiales.
 
-\item $s(\text{pendiente})$: incremento sostenido y pronunciado hasta
+\item $s(\text{pendiente})$: presenta un incremento sostenido y pronunciado hasta
 los 35°--40°, seguido de una meseta o leve descenso. La forma de la
 curva es coherente con la mecánica de la estabilidad de laderas: la
 tensión de corte aumenta con $\sin\beta$, pero pendientes muy
 pronunciadas tienden a carecer de material removible tras episodios
-previos de inestabilidad (efecto de agotamiento).
+previos de inestabilidad o erosión.
 
-\item $s_\text{cc}(\text{aspecto})$: efecto circular con mayor
+\item $s_\text{cc}(\text{aspecto})$: Señala un efecto circular con mayor
 contribución al logit en orientaciones oeste y noroeste (225°--315°).
-La continuidad en 0°/360° valida el uso del \textit{spline} cíclico:
-un TPS estándar hubiera generado una discontinuidad artificial en ese
-punto. El efecto está asociado a la mayor humedad relativa de las
+El efecto puede estar indicando mayor humedad relativa de las
 laderas con esa orientación en el contexto climático del Valle de
 Aburrá.
 
@@ -522,19 +710,15 @@ susceptibilidad por concentración del flujo subsuperficial.
 
 \item $s(\kappa_r\,\text{perfil})$: patrón similar a $\kappa_p$, con
 mayor susceptibilidad en zonas cóncavas en perfil ($\kappa_r < 0$),
-donde el coluvión se acumula y la presión de poros puede alcanzar
+donde el suelo transportado se acumula y la presión de poros puede alcanzar
 valores críticos.
 
-\item $s(\text{TWI})$: efecto positivo y monótonamente creciente, con
+\item $s(\text{TWI})$: presenta un efecto positivo y monótonamente creciente, con
 la tasa de incremento más alta entre valores de 3 y 7. Este es el
 efecto más pronunciado de todos los predictores, confirmando que la
 humedad topográfica es el factor condicionante dominante en el sistema.
 
 \end{itemize}
-
-%-------------------------------------------------------------------
-\subsection{Desempeño Predictivo}
-%-------------------------------------------------------------------
 
 La Figura~\ref{fig:roc} presenta la curva ROC en el conjunto de prueba.
 El AUC de 0{,}908 sitúa el modelo en la categoría de desempeño
@@ -577,10 +761,6 @@ La sensibilidad (0{,}851) y la especificidad (0{,}833) son equilibradas,
 indicando que el modelo discrimina bien ambas clases sin sesgo hacia
 ninguna. El Kappa de 0{,}684 corresponde a acuerdo sustancial.
 
-%-------------------------------------------------------------------
-\subsection{Importancia Relativa de los Predictores}
-%-------------------------------------------------------------------
-
 La Figura~\ref{fig:imp} presenta la reducción de devianza ($\Delta D$)
 al omitir cada predictor del modelo completo. El \textbf{TWI} es
 claramente el predictor dominante, con una contribución varias veces
@@ -599,10 +779,6 @@ significativas.
     contribución al poder explicativo.}
     \label{fig:imp}
 \end{figure}
-
-%-------------------------------------------------------------------
-\subsection{Variables Morfométricas en Zonas de Alta Susceptibilidad}
-%-------------------------------------------------------------------
 
 La Tabla~\ref{tab:high_susc} presenta los estadísticos de las seis
 variables morfométricas para los puntos clasificados con
@@ -638,10 +814,6 @@ oeste-noroeste (media 242°), curvatura planiforme y de perfil
 negativas (convergencia y aceleración), y TWI elevado (media 7{,}14,
 claramente superior a la media global de 4{,}87).
 
-%-------------------------------------------------------------------
-\subsection{Mapa de Susceptibilidad}
-%-------------------------------------------------------------------
-
 La Figura~\ref{fig:mapa_reg} presenta el mapa de susceptibilidad
 regional a 50\,m de resolución, con paleta de colores de verde
 (baja susceptibilidad) a rojo (alta susceptibilidad). Los patrones
@@ -668,6 +840,7 @@ Figura~\ref{fig:inventario}.
 \section{Discusión}
 %===================================================================
 
+<<<<<<< Updated upstream
 Los resultados evidencian que los GAM constituyen una herramienta
 metodológicamente robusta para cuantificar relaciones no lineales entre
 variables morfométricas e inestabilidad de laderas en el Valle de
@@ -679,6 +852,12 @@ y sus implicaciones para la gestión territorial del riesgo.
 %-------------------------------------------------------------------
 \subsection*{Desempeño predictivo en perspectiva comparativa}
 %-------------------------------------------------------------------
+=======
+Los resultados confirman que los GAM constituyen una herramienta
+metodológicamente idónea para cuantificar el efecto de covariables, en este caso, sobre la ocurrencia de movimientos en masa. El AUC de
+0{,}908 y el TSS de 0{,}816 obtenidos en el conjunto de prueba
+independiente reflejan la importancia de las variables morfométricas y su inclusión en la evaluación dela susceptibilidad a movimientos en masa.
+>>>>>>> Stashed changes
 
 El AUC de 0{,}908 y el TSS de 0{,}816 sitúan el modelo en la
 categoría de desempeño excelente y superan el rango típico de los GAM
@@ -691,6 +870,7 @@ reportaron valores similares en la región andina colombiana.
 El resultado aquí obtenido es, por tanto, superior al rango central
 documentado en la literatura para modelos GAM de susceptibilidad.
 
+<<<<<<< Updated upstream
 Esta comparación debe interpretarse con cautela, dado que el AUC
 es sensible al protocolo de validación, la relación evento/no-evento y
 la estrategia de muestreo de ausencias ---factores que difieren entre
@@ -913,6 +1093,42 @@ los resultados del GAM merece exploración sistemática, especialmente
 para evaluar si el ruido micro-topográfico del DEM de 2\,m introduce
 variabilidad artefactual en las curvaturas que distorsione las funciones
 de suavizado estimadas.
+=======
+La pendiente ejerce el segundo efecto más importante (Figura~\ref{fig:imp}).
+La función $s(\text{slope})$ muestra un incremento casi monotónico
+hasta los 35°--40°, coherente con el aumento de la componente
+tangencial del peso que genera la tensión de corte en el plano de
+falla. La reducción de la susceptibilidad predicha para pendientes
+muy elevadas ($>45^{\circ}$) es un fenómeno conocido como \textit{efecto de
+agotamiento}: en laderas extrem\-adamente pronunciadas, los episodios
+sucesivos de inestabilidad han removido el material susceptible,
+dejando afloramientos rocosos competentes.
+
+El \textit{spline} cíclico permite identificar que las laderas con
+orientación oeste-noroeste (225°--315°) presentan mayor susceptibilidad.
+En el Valle de Aburrá, estas orientaciones corresponden a las vertientes...
+
+Las curvaturas planiforme y de perfil aportan información
+complementaria sobre la geometría tridimensional de la ladera. La
+curvatura planiforme negativa (zonas cóncavas en planta, vaguadas)
+indica convergencia del flujo subsuperficial, generando presiones de
+poros que pueden reducir la resistencia al corte del material hasta
+valores críticos. La curvatura de perfil negativa (zonas cóncavas en
+perfil) indica acumulación de material residual y aceleración del
+flujo, incrementando tanto el peso del material como la energía
+cinética disponible para la movilización. La inclusión conjunta de
+ambas curvaturas mejora significativamente la representación de la
+inestabilidad local respecto a modelos con solo pendiente y elevación.
+
+El TWI es el predictor dominante (Figura~\ref{fig:imp}), con un efecto
+positivo pronunciado sobre la susceptibilidad. Esto es
+consistente con el mecanismo de falla predominante en el Valle de
+Aburrá: deslizamientos superficiales detonados
+por la saturación de los horizontes de meteorización durante episodios
+de lluvia intensa d earga duración. La tabla~\ref{tab:high_susc} confirma que las zonas
+de alta susceptibilidad presentan valores de TWI medios de 7{,}14,
+frente a la media global de 4{,}87, una diferencia de 47\,\%.
+>>>>>>> Stashed changes
 
 %===================================================================
 \section{Conclusiones}

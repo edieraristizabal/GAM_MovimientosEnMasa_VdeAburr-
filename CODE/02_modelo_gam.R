@@ -241,8 +241,25 @@ ggsave(
 )
 
 # ============================================================
-# Guardar modelo
+# Modelo final: reentrenado con el 100 % de los datos
+# Las metricas de evaluacion (AUC, TSS, etc.) corresponden al
+# conjunto de prueba independiente (30 %) calculado arriba.
 # ============================================================
-saveRDS(modelo_gam, "DATA/modelo_gam_final.rds")
-cat("\nModelo guardado en DATA/modelo_gam_final.rds\n")
+cat("\nReentrenando modelo final con el 100 % de los datos...\n")
+modelo_final <- gam(
+  occ ~ s(elev) + s(slope) +
+    s(aspect, bs = "cc", k = 10) +
+    s(curv_plan) + s(curv_prof) + s(twi),
+  family = binomial(link = "logit"),
+  data   = df,
+  method = "REML",
+  knots  = list(aspect = c(0, 360))
+)
+cat("Modelo final ajustado (n =", nrow(df), "registros)\n")
+cat("Devianza explicada (100%):",
+    round((1 - modelo_final$deviance / modelo_final$null.deviance) * 100, 1),
+    "%\n")
+
+saveRDS(modelo_final, "DATA/modelo_gam_final.rds")
+cat("Modelo final guardado en DATA/modelo_gam_final.rds\n")
 cat("Proceso de modelado completado.\n")
