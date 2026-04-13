@@ -254,6 +254,10 @@ names(layers$twi) <- "twi"
 stack_50m <- do.call(c, unname(lapply(layers, function(r) r)))
 pred_50m <- predict(stack_50m, modelo, type = "response")
 
+# Guardar raster de susceptibilidad para uso en figuras Python
+writeRaster(pred_50m, "DATA/susceptibilidad_50m.tif", overwrite = TRUE)
+cat("  Raster guardado: DATA/susceptibilidad_50m.tif\n")
+
 png(
   "FIGURAS/mapa_susceptibilidad_regional.png",
   width = 1000, height = 1200, res = 120
