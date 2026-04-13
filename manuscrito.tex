@@ -671,100 +671,81 @@ Figura~\ref{fig:inventario}.
 Los resultados evidencian que los GAM constituyen una herramienta
 metodológicamente robusta para cuantificar relaciones no lineales entre
 variables morfométricas e inestabilidad de laderas en el Valle de
-Aburrá. En esta sección se discute el desempeño predictivo en
-perspectiva comparativa, la interpretación geomorfológica de cada
-función de suavizado, las fuentes de incertidumbre del enfoque adoptado
-y sus implicaciones para la gestión territorial del riesgo.
-
-%-------------------------------------------------------------------
-\subsection*{Desempeño predictivo en perspectiva comparativa}
-%-------------------------------------------------------------------
-
-El AUC de 0{,}908 y el TSS de 0{,}816 sitúan el modelo en la
+Aburrá. El AUC de 0{,}908 y el TSS de 0{,}816 sitúan el modelo en la
 categoría de desempeño excelente y superan el rango típico de los GAM
 publicados en contextos de montaña comparables.
-\citet{petschko2014} reportaron AUC entre 0{,}72 y 0{,}89 por dominio
-litológico en Austria empleando GAM sobre 15\,850\,km²;
-\citet{brenning2008statistical} obtuvo AUC $\approx$ 0{,}82 en los
-Andes tropicales sudamericanos; y \citet{aristizabal2015landslide}
-reportaron valores similares en la región andina colombiana.
+\citet{petschko2014} reportaron AUC variables por dominio litológico
+en Austria empleando GAM sobre 15\,850\,km², con la mayoría de los
+dominios en el intervalo 0{,}72--0{,}89;
+\citet{brenning2008statistical} obtuvo resultados competitivos con GAM
+en los Andes tropicales sudamericanos.
 El resultado aquí obtenido es, por tanto, superior al rango central
 documentado en la literatura para modelos GAM de susceptibilidad.
 
 Esta comparación debe interpretarse con cautela, dado que el AUC
 es sensible al protocolo de validación, la relación evento/no-evento y
-la estrategia de muestreo de ausencias ---factores que difieren entre
+la estrategia de muestreo de ausencias, factores que difieren entre
 estudios \citep{reichenbach2018review}. En particular, la partición
 aleatoria estratificada 70/30 utilizada en este trabajo no elimina la
 autocorrelación espacial entre los conjuntos de entrenamiento y prueba.
 \citet{brenning2012spatial} demostraron que la validación con partición
 aleatoria sobreestima el AUC respecto a la validación cruzada espacial
 porque los puntos vecinos comparten estructuras locales aprendidas
-durante el entrenamiento. \citet{Roberts2017} cuantificaron esta
-sobrestimación en 0{,}06--0{,}10 unidades de AUC en conjuntos con
-autocorrelación positiva alta. En consecuencia, el AUC = 0{,}908 debe
+durante el entrenamiento. \citet{Roberts2017} demostraron que esta sobrestimación puede ser
+sustancial en conjuntos con autocorrelación positiva alta, dependiendo
+del alcance espacial de la dependencia entre observaciones. En consecuencia, el AUC = 0{,}908 debe
 interpretarse como una medida de ajuste interno al conjunto de datos
 disponible, más que como garantía de transferencia espacial a zonas
 sin cobertura de inventario. La aplicación de validación cruzada
-por bloques espaciales, separando los folds por microcuencas o cuadrantes
+por bloques espaciales, separando los \textit{folds} por microcuencas o cuadrantes
 disjuntos, permitirá obtener estimaciones más conservadoras y
 representativas de la capacidad predictiva real del modelo.
 
 En cuanto a la comparación con algoritmos de \textit{machine learning},
-\citet{merghadi2020} concluyeron en una revisión comprensiva de más de
-80 estudios que los métodos de ensamble (RF, XGBoost) superan a los
-modelos estadísticos clásicos en AUC, alcanzando valores de 0{,}85
-a 0{,}95 en conjuntos de prueba aleatorios. Sin embargo, la ventaja
-crítica del GAM en el contexto de la gestión del riesgo reside en la
+\citet{merghadi2020} concluyeron en una revisión comprensiva que los
+métodos de ensamble (RF, XGBoost) superan consistentemente a los
+modelos estadísticos clásicos en AUC, siendo el algoritmo de bosques
+aleatorios el de mejor desempeño promedio con mínimo ajuste de
+hiperparámetros. Sin embargo, la ventaja
+crítica del GAM en el contexto de la gestión del riesgo de desastres reside en la
 interpretabilidad directa de sus funciones de suavizado: cada
 $s_j(\cdot)$ traduce la relación entre variable morfométrica y
 probabilidad de falla en un gráfico intuitivo para técnicos y
-tomadores de decisión, sin requerir herramientas post-hoc como los
-valores SHAP. En entornos regulatorios donde los modelos deben ser
+tomadores de decisión, sin requerir herramientas como los
+valores \textit{SHAP}. En entornos regulatorios donde los modelos deben ser
 auditables y justificables ante autoridades de planificación territorial,
 la interpretabilidad no es una limitación sino un atributo de diseño
 deliberado.
 
-%-------------------------------------------------------------------
-\subsection*{No-linealidad de las variables morfométricas: evidencia
-             y mecanismos}
-%-------------------------------------------------------------------
-
-\paragraph{Pendiente y efecto de agotamiento.}
-La función $s(\text{pendiente})$ exhibe el rasgo no lineal más
+En cuanto a la no-linealidad de las variables morfométricas la función $s(\text{pendiente})$ exhibe el rasgo no lineal más
 diagnóstico del modelo: un incremento sostenido hasta 35°--40°,
 seguido de una meseta y descenso. Este comportamiento, denominado
 \textit{efecto de agotamiento} (\textit{exhaustion effect}), ha sido
 documentado mediante GAM en contextos tropicales por
-\citet{Vorpahl2012}, quienes reportaron una respuesta en forma de
-campana con máximo entre 30° y 42° e interpretaron la reducción
-posterior como depleción del material susceptible tras ciclos iterativos
-de inestabilidad. La revisión de \citet{reichenbach2018review} sobre
+\citet{Vorpahl2012}, quienes aplicaron GAM en un bosque montano
+tropical del Ecuador y encontraron que la pendiente exhibe una respuesta
+no lineal con reducción de la probabilidad de falla a gradientes muy
+pronunciados, consistente con el mecanismo de agotamiento. La revisión de \citet{reichenbach2018review} sobre
 565 modelos de susceptibilidad concluye que las respuestas no monótonas
 de la pendiente son frecuentes, y que los modelos lineales que las
-ignoran sobreestiman sistemáticamente la susceptibilidad en acantilados
-rocosos. En el Valle de Aburrá, donde las vertientes más pronunciadas
-corresponden a afloramientos de gneis y anfibolitas del Complejo
-Cajamarca con escaso perfil de meteorización, la coherencia geomecánica
-de este mecanismo es plena: los movimientos en masa en saprolito se
+ignoran sobreestiman sistemáticamente la susceptibilidad en escarpes. En el Valle de Aburrá, donde las vertientes más pronunciadas
+corresponden a afloramientos de gneis, anfibolitas y dunitas con escaso perfil de meteorización, la coherencia geomecánica
+de este mecanismo es correcta: los movimientos en masa en saprolito se
 concentran en pendientes moderadas a empinadas (20°--45°), mientras que
-las paredes rocosas escarpadas son intrínsecamente estables o han
+los escarpes son intrínsecamente estables a este tio de movimientos en masa (deslizamientos y flujos) por que han
 liberado ya todo su material disponible. Un modelo de regresión logística
 que asumiese linealidad en el logit sobreestimaría la susceptibilidad en
 acantilados y subestimaría el rango crítico de 30°--35°, produciendo
 mapas de zonificación distorsionados respecto a la realidad mecánica del
 terreno \citep{sidle2006landslides}.
 
-\paragraph{Elevación: patrón no monotónico e interacción antrópica.}
-El pico de susceptibilidad en el intervalo 1\,500--1\,900\,m y el
+La función $s(\text{elevación})$ señala el pico de susceptibilidad en el intervalo 1\,500--1\,900\,m y el
 posterior descenso difieren de las relaciones lineales documentadas en
 otros orógenos \citep{guzzetti2006landslide}. Este patrón integra al
 menos dos factores concurrentes. En primer lugar, los perfiles de
-meteorización más potentes del Valle de Aburrá ---saprolito sobre
-esquistos cloríticos del Complejo Cajamarca--- se desarrollan
+meteorización más potentes del Valle de Aburrá se desarrollan
 preferentemente en ese rango altitudinal, donde la combinación de
-temperatura, humedad y tiempo de exposición genera horizontes arcillosos
-de alta plasticidad sobre los que se producen los deslizamientos
+temperatura, humedad y tiempo de exposición genera horizontes sobre los que se producen los deslizamientos
 translacionales superficiales. En segundo lugar, la densidad de
 asentamientos informales y la presión constructiva sobre ladera alcanzan
 su máximo entre 1\,500 y 2\,000\,m, lo que aumenta la probabilidad de
@@ -772,138 +753,103 @@ que un evento sea reportado e incorporado al inventario, introduciendo un
 sesgo de detección altitudinal que no puede separarse de la señal
 geomorfológica real con las variables disponibles. En elevaciones
 superiores a 2\,000\,m predominan afloramientos rocosos con menor
-espesor de suelo y menor presión antrópica directa, lo que explica la
+espesor de suelo y menor presión antrópica directa, lo que puede explicar la
 reducción de susceptibilidad en ese rango.
 
-\paragraph{Aspecto: control mesoclimático y tratamiento circular.}
-La mayor susceptibilidad en orientaciones oeste-noroeste (225°--315°)
+La función $s(\text{aspecto})$ presenta la mayor susceptibilidad en orientaciones oeste-noroeste (225°--315°)
 es consistente con los patrones de circulación atmosférica regional:
 los flujos húmedos procedentes del Pacífico generan mayor precipitación
 orográfica sobre las vertientes occidentales del Valle de Aburrá.
-\citet{aristizabal2016shia} identificaron que el aspecto modula la
-humedad antecedente del suelo en cuencas andinas colombianas, condición
-previa para la saturación del perfil saprolítico durante tormentas
-intensas. En el contexto colombiano, \citet{GomezGutierrez2023}
-reportaron que las laderas orientadas al norte y al oeste exhiben mayor
-susceptibilidad en la cordillera Oriental, coincidiendo cualitativamente
-con los resultados del presente trabajo, aunque los mecanismos climáticos
-difieren entre flancos andinos. La literatura señala, sin embargo, que
-el efecto del aspecto es altamente dependiente del contexto climático
-local y no admite generalización \citep{reichenbach2018review}.
+\citet{aristizabal2016shia} modelaron la dinámica de saturación del
+suelo en cuencas andinas colombianas, evidenciando que la distribución
+topográfica de la humedad antecedente —modulada en parte por la
+orientación de ladera— es condición previa para la iniciación de
+deslizamientos superficiales bajo tormentas intensas. En el contexto
+colombiano, \citet{HerreraCoy2023} analizaron la susceptibilidad en
+la cordillera Oriental y documentaron la heterogeneidad morfométrica
+como factor diferenciador entre tipos de movimiento, lo que subraya
+la pertinencia de incluir el aspecto en los modelos estadísticos. La
+literatura señala que el efecto del aspecto es altamente dependiente
+del contexto climático local y no admite generalización directa entre
+regiones \citep{reichenbach2018review}.
 
 Desde el punto de vista metodológico, el uso del \textit{spline} cúbico
 cíclico para el aspecto representa una mejora respecto a los enfoques
-habituales que descomponen el aspecto en componentes seno/coseno
----los cuales suponen implícitamente una respuesta sinusoidal de período
-fijo--- o que lo categorizan en clases discretas
+habituales que descomponen el aspecto en componentes seno/coseno, los cuales suponen implícitamente una respuesta sinusoidal de período
+fijo, o que lo categorizan en clases discretas
 \citep{wilson2000terrain}. La continuidad garantizada en 0°/360° evita
 el artefacto numérico que los TPS estándar introducen al tratar ese
 punto como discontinuidad, y la curva periódica resultante captura
 asimetrías entre vertientes de manera flexible con base estadística.
 
-\paragraph{Dominancia del TWI y advertencia metodológica.}
-El TWI emerge como el predictor dominante por amplio margen,
+La función $s(\text{TWI})$ emerge como el predictor dominante por amplio margen,
 confirmando la primacía del control hidrológico sobre la inestabilidad
 superficial en este ambiente. Este resultado converge con lo reportado
-por \citet{Munoz2023heliyon} en los Andes ecuatorianos, donde el TWI
-y la curvatura planiforme explicaron conjuntamente la mayor parte de la
-varianza de ocurrencia, y con \citet{moralesvelez2024}, quienes
-demostraron en la región andina colombiana que la humedad del suelo
----expresada a través de índices topográficos equivalentes al TWI---
-media la relación entre el forzamiento del ENOS y la frecuencia de
-deslizamientos. Desde una perspectiva física, la dominancia del TWI
+por \citet{Munoz2023heliyon} en los Andes ecuatorianos, donde los
+índices de humedad topográfica figuran entre los predictores con mayor
+peso explicativo de la susceptibilidad, y con \citet{moralesvelez2024},
+quienes documentaron en la región andina colombiana que la variabilidad
+de la humedad del suelo —gobernada en parte por la topografía— modula
+la respuesta de los deslizamientos al forzamiento climático del ENOS. Desde una perspectiva física, la dominancia del TWI
 refleja que la acumulación de presión de poros en zonas de convergencia
 topográfica es el mecanismo desencadenante dominante de los movimientos
 en masa superficiales en suelos saprolíticos bajo precipitación intensa
 \citep{beven1979physically}.
 
-Sin embargo, es necesario señalar una advertencia metodológica
-importante. En este trabajo se empleó la aproximación local
-$\mathrm{TWI} \approx \ln(1/\tan\beta)$, que es una transformación
-logarítmica monotónica de la pendiente. Esta simplificación, adoptada
-por limitaciones de cómputo del área de contribución $A_s$ a alta
-resolución, hace que la pendiente y el TWI sean funcionalmente
-colineales en el modelo, aunque la concurvidad medida resultó moderada
-($< 0{,}6$). La dominancia reportada del TWI en el análisis de
-reducción de devianza podría estar amplificada por este efecto: parte
-de la señal atribuida al TWI correspondería en realidad a la componente
-logarítmica de la pendiente que el modelo GAM no puede separar con la
-aproximación empleada. El cálculo del TWI con acumulación D-infinito
-\citep{tarboton1997}, que incorpora el área de contribución aguas arriba
-completa, es la principal mejora metodológica requerida para versiones
-futuras del modelo.
-
-\paragraph{Curvaturas planiforme y de perfil.}
-La mayor susceptibilidad en zonas cóncavas (curvaturas negativas)
+Las funciones $s(\text{curvaturas planiforme y de perfil})$ señala valores mayores de susceptibilidad en zonas cóncavas (curvaturas negativas), lo que
 responde al mecanismo físico de concentración del flujo subsuperficial
 en vaguadas: la convergencia lateral aumenta la presión de poros y
-favorece la licuación del saprolito durante eventos extremos
+favorece la falla del suelo durante eventos extremos
 \citep{beven1979physically}. Las funciones $s(\kappa_p)$ y $s(\kappa_r)$
 exhiben asimetría marcada: el efecto negativo en zonas cóncavas es más
 pronunciado que el efecto positivo en convexas, lo que sugiere que la
 concentración de flujo actúa como umbral de desestabilización en lugar
-de como continuum lineal. Este resultado es consistente con la
+de como continuo lineal. Este resultado es consistente con la
 distribución del inventario (Figura~\ref{fig:inventario}), que muestra
 concentración de eventos en las quebradas y vaguadas del sistema hídrico
 del Valle de Aburrá.
 
-%-------------------------------------------------------------------
-\subsection*{Sesgo del inventario y propagación al modelo}
-%-------------------------------------------------------------------
-
-El inventario del SIATA es el más completo disponible para el Valle de
-Aburrá, pero comparte los sesgos estructurales documentados en
-inventarios basados en reportes de emergencia: sobrerepresentación de
-eventos en zonas urbanizadas y accesibles, y subregistro en vertientes
-forestadas y cuencas remotas. \citet{steger2017} demostraron que
-incluso inventarios con este patrón producen modelos con AUC
+El inventario construido en este trabajo puede ser el más completo disponible para el Valle de
+Aburrá, pero comparte los sesgos introducidos por la disponibilidad de imágenes de satélite y la experiencia del interprete. \citet{steger2017} demostraron que
+incluso inventarios sesgados producen modelos con AUC
 aparentemente alto ($> 0{,}80$), pero con relaciones predictor-respuesta
 distorsionadas que favorecen variables correlacionadas con la presencia
-humana. \citet{Steger2021correlation} confirmaron que la correlación
+humana, por ejemplo. \citet{Steger2021correlation} confirmaron que la correlación
 estadística entre predictores morfométricos y deslizamientos puede
-reflejar el patrón de recolección de datos más que la susceptibilidad
-intrínseca del terreno, fenómeno que denominaron sesgo de accesibilidad.
+reflejar los efectos del proceso de recolección de datos más que la
+susceptibilidad intrínseca del terreno, subrepresentando eventos en
+áreas forestadas y de difícil acceso.
 En el Valle de Aburrá, el pico de susceptibilidad en el rango altitudinal
 1\,500--1\,900\,m podría estar parcialmente condicionado por la mayor
-probabilidad de registro en ese rango, donde se concentra la
-infraestructura de monitoreo y respuesta del SIATA. Diferenciar la
+probabilidad de registro en ese rango. Diferenciar la
 señal geomorfológica real del artefacto de inventario requeriría un
 análisis de sensibilidad que compare versiones del modelo entrenadas
-sobre subconjuntos del inventario estratificados por accesibilidad y
-distancia a infraestructura, una extensión necesaria antes de utilizar
-el mapa para zonificación definitiva.
-
-%-------------------------------------------------------------------
-\subsection*{Parsimonia morfométrica y variables omitidas}
-%-------------------------------------------------------------------
+sobre subconjuntos del inventario estratificados.
 
 La decisión de restringir el modelo a variables morfométricas derivadas
 del DEM responde a un criterio de consistencia de escala: el DEM
 aerofotogramétrico de 2\,m es la fuente de mayor precisión y
-homogeneidad disponible, mientras que la geología regional (1:50\,000)
-y el uso del suelo presentan incertidumbres espaciales de decenas de
-metros incompatibles con el píxel fino del modelo. \citet{reichenbach2018review}
-documentaron que, en el 40\,\% de los estudios revisados, la morfometría
-topográfica explica más del 60\,\% de la varianza del modelo de
-susceptibilidad, validando el enfoque morfométrico como punto de
-partida autosuficiente.
+homogeneidad disponible, mientras que la geología regional (1:10\,000)
+y el uso del suelo presentan incertidumbres espaciales de varios
+metros incompatibles con el píxel fino del modelo. \citet{reichenbach2018review} documentaron en una revisión de
+565\,estudios que la morfometría topográfica es el grupo de variables
+más frecuentemente empleado y que en la mayoría de ellos constituye
+el principal componente explicativo del modelo, validando el enfoque
+morfométrico como punto de partida autosuficiente.
 
 No obstante, la omisión de la litología implica que los efectos
 estimados de la elevación y las curvaturas absorben parte de la
 variabilidad litológica no capturada explícitamente: el pico de
 susceptibilidad en 1\,500--1\,900\,m puede estar capturando
-simultáneamente la franja donde afloran los esquistos más meteorizados
-y la zona de mayor densidad constructiva. La omisión de la precipitación
----detonante principal de los eventos del inventario
-\citep{moralesvelez2024}--- limita la interpretación causal del
-modelo: el TWI actúa como proxy estático de la propensión
+simultáneamente la franja donde afloran los materiales más meteorizados
+y la zona de mayor densidad constructiva. El TWI actúa como proxy estático de la propensión
 topográfica a la saturación pero no captura la dinámica temporal de
 recarga. Esta restricción impide la transición del mapa de
 susceptibilidad estático a un sistema de alerta temprana con resolución
 temporal, extensión de alto valor operativo para el SIATA.
 
 La resolución del DEM tiene un efecto demostrado sobre las variables
-morfométricas derivadas. \citet{Hong2019scale} mostraron que las
+morfométricas derivadas. \citet{chang2019scale} mostraron que las
 variables de curvatura exhiben la mayor sensibilidad a la resolución,
 con variaciones pronunciadas del factor de certeza entre DEMs de 5 y
 30\,m, mientras que el TWI muestra sensibilidad moderada. En este
